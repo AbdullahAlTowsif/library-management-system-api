@@ -24,25 +24,46 @@ booksRoutes.post("/books", async (req: Request, res: Response) => {
 // get method: get all books
 booksRoutes.get("/books", async (req: Request, res: Response) => {
   try {
-
-    const { filter, sortBy = 'title', sort = 'asc', limit = 10 }: BookQueryParams = req.query;
+    const {
+      filter,
+      sortBy = "title",
+      sort = "asc",
+      limit = 10,
+    }: BookQueryParams = req.query;
     let books = [];
 
-    const query: any = {}
-    if(filter) {
-        query.genre = filter;
+    const query: any = {};
+    if (filter) {
+      query.genre = filter;
     }
 
-    const sortOptions: any = {}
-    sortOptions[sortBy] = sort === 'asc' ? 1 : -1
+    const sortOptions: any = {};
+    sortOptions[sortBy] = sort === "asc" ? 1 : -1;
 
-    books = await Book.find(query).sort(sortOptions).limit(Number(limit))
+    books = await Book.find(query).sort(sortOptions).limit(Number(limit));
 
     res.status(200).json({
       success: true,
       message: "Books retrieved successfully",
       data: books,
     });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// get method: get book by id
+booksRoutes.get("/books/:bookId", async (req: Request, res: Response) => {
+  try {
+    const bookId = req.params.bookId;
+    const book = await Book.findById(bookId);
+
+    res.status(200).json({
+        success: true,
+        message: "Book retrieved successfully",
+        data: book
+    })
+    
   } catch (error) {
     console.log(error);
   }
