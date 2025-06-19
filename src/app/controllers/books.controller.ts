@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { Book } from "../models/books.model";
 import { BookQueryParams } from "../interfaces/books.interface";
+import { CommandSucceededEvent } from "mongodb";
 
 export const booksRoutes = express.Router();
 
@@ -63,8 +64,22 @@ booksRoutes.get("/books/:bookId", async (req: Request, res: Response) => {
         message: "Book retrieved successfully",
         data: book
     })
-    
+
   } catch (error) {
     console.log(error);
   }
+});
+
+
+// put method: update book
+booksRoutes.put('/books/:bookId', async (req: Request, res: Response) => {
+    const bookId = req.params.bookId;
+    const updatedBody = req.body;
+    const book = await Book.findByIdAndUpdate(bookId, updatedBody, {new: true});
+
+    res.status(201).json({
+        success: true,
+        message: "Book updated successfully",
+        data: book
+    })
 });
