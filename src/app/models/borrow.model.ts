@@ -14,7 +14,8 @@ const borrowSchema = new Schema<IBorrowBook>(
   }
 );
 
-// ✅ Static method to borrow and update book
+
+// static method
 borrowSchema.statics.borrowAndUpdate = async function (
   bookId: string,
   quantity: number
@@ -29,7 +30,7 @@ borrowSchema.statics.borrowAndUpdate = async function (
     throw new Error('Not enough copies available');
   }
 
-  // Update book copies and availability
+
   book.copies -= quantity;
   if (book.copies === 0) {
     book.available = false;
@@ -37,9 +38,9 @@ borrowSchema.statics.borrowAndUpdate = async function (
 
   await book.save();
 
-  // Create Borrow record (without dueDate yet)
+
   const dueDate = new Date();
-  dueDate.setDate(dueDate.getDate() + 7); // Default: 7-day borrow
+  dueDate.setDate(dueDate.getDate() + 7);
 
   const borrow = await this.create({
     book: book._id,
@@ -49,5 +50,6 @@ borrowSchema.statics.borrowAndUpdate = async function (
 
   return borrow;
 };
+
 
 export const Borrow = model<IBorrowBook, BorrowStaticMethods>('Borrow', borrowSchema);
