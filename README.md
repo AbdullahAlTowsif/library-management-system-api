@@ -168,6 +168,6 @@ npm start         # Run compiled JavaScript
 
 ---
 
-## ✨ Author
+## ✨ Live Link
 
-Created by [Abdullah Al Towsif](https://github.com/AbdullahAlTowsif)
+Live Link [Library Management System API](https://library-management-api-xi-lac.vercel.app/)
