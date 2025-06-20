@@ -1,12 +1,12 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { Book } from "../models/books.model";
 import { BookQueryParams } from "../interfaces/books.interface";
 import { CommandSucceededEvent } from "mongodb";
 
 export const booksRoutes = express.Router();
 
-// post method: create book
-booksRoutes.post("/books", async (req: Request, res: Response) => {
+// post request: create book
+booksRoutes.post("/books", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const body = req.body;
 
@@ -18,11 +18,12 @@ booksRoutes.post("/books", async (req: Request, res: Response) => {
       data: books,
     });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
+    next(error);
   }
 });
 
-// get method: get all books
+// get request: get all books
 booksRoutes.get("/books", async (req: Request, res: Response) => {
   try {
     const {
@@ -48,12 +49,12 @@ booksRoutes.get("/books", async (req: Request, res: Response) => {
       message: "Books retrieved successfully",
       data: books,
     });
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
   }
 });
 
-// get method: get book by id
+// get request: get book by id
 booksRoutes.get("/books/:bookId", async (req: Request, res: Response) => {
   try {
     const bookId = req.params.bookId;
@@ -69,7 +70,7 @@ booksRoutes.get("/books/:bookId", async (req: Request, res: Response) => {
   }
 });
 
-// put method: update book
+// put request: update book
 booksRoutes.put("/books/:bookId", async (req: Request, res: Response) => {
   const bookId = req.params.bookId;
   const updatedBody = req.body;
@@ -82,7 +83,7 @@ booksRoutes.put("/books/:bookId", async (req: Request, res: Response) => {
   });
 });
 
-// delete method: delete a book
+// delete request: delete a book
 booksRoutes.delete("/books/:bookId", async (req: Request, res: Response) => {
   try {
     const bookId = req.params.bookId;

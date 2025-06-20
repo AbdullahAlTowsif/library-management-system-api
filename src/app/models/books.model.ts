@@ -4,11 +4,11 @@ import { IBook } from "../interfaces/books.interface";
 const bookSchema = new Schema<IBook>({
     title: {
         type: String,
-        required: true
+        required: [true, "Title is required"]
     },
     author: {
         type: String,
-        required: true
+        required: [true, "Author is required"]
     },
     genre: {
         type: String,
@@ -17,11 +17,11 @@ const bookSchema = new Schema<IBook>({
             values: ["FICTION" , "NON_FICTION" , "SCIENCE" , "HISTORY" , "BIOGRAPHY" , "FANTASY"],
             message: "Genre is not Valid! got {VALUE}"
         },
-        required: true
+        required: [true, "Genre is required"]
     },
     isbn: {
         type: String,
-        required: true,
+        required: [true, "ISBN is required"],
         unique: [true, "isbn MUST be unique"]
     },
     description: {
@@ -29,7 +29,8 @@ const bookSchema = new Schema<IBook>({
     },
     copies: {
         type: Number,
-        required: true
+        required: [true, "Copies is required"],
+        min: [1, "Copies must be a positive number"]
     },
     available: {
         type: Boolean,
