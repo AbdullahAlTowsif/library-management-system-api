@@ -42,13 +42,13 @@ const errorHandler: ErrorRequestHandler = (
         errors: formattedErrors,
       },
     });
+  } else {
+    res.status(500).json({
+      message: err.message || "Something went wrong",
+      success: false,
+      error: err,
+    });
   }
-
-  res.status(500).json({
-    message: err.message || "Something went wrong",
-    success: false,
-    error: err,
-  });
 };
 
 export default errorHandler;
