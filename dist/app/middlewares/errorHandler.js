@@ -39,10 +39,12 @@ const errorHandler = (err, req, res, next) => {
             },
         });
     }
-    res.status(500).json({
-        message: err.message || "Something went wrong",
-        success: false,
-        error: err,
-    });
+    else {
+        res.status(500).json({
+            message: err.message || "Something went wrong",
+            success: false,
+            error: err,
+        });
+    }
 };
 exports.default = errorHandler;
